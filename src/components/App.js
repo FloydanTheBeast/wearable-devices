@@ -22,14 +22,12 @@ const App = () => {
 		logout();
 	};
 
-	console.log("test");
-
 	return (
 		<>
 			<GlobalStyle />
 			{!isSignedIn ? (
 				<GoogleLogin
-					clientId=""
+					clientId={process.env.CLIENT_ID}
 					onSuccess={onSuccessfulLogin}
 					onFailure={(err) => console.log(err)}
 					cookiePolicy={"single_host_origin"}
@@ -37,7 +35,7 @@ const App = () => {
 				/>
 			) : (
 				<GoogleLogout
-					clientId=""
+					clientId={process.env.CLIENT_ID}
 					onLogoutSuccess={onSuccessfulLogout}
 				/>
 			)}

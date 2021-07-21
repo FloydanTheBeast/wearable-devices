@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
 	entry: "./src/index.js",
@@ -13,8 +14,7 @@ module.exports = {
 	resolve: {
 		extensions: [".ts", ".tsx", ".js"],
 		alias: {
-			components: path.resolve(__dirname, "src/components/"),
-			pages: path.resolve(__dirname, "src/pages/")
+			components: path.resolve(__dirname, "src/components/")
 		}
 	},
 	devServer: {
@@ -43,6 +43,9 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: path.resolve("src/index.html")
+		}),
+		new Dotenv({
+			path: path.resolve("src/.env")
 		})
 	]
 };
