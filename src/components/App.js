@@ -30,8 +30,8 @@ const App = () => {
 	const [isSignedIn, changeSignIn] = useState(isUserSaved());
 
 	const onSuccessfulLogin = (response) => {
-		changeSignIn(true);
 		signIn(response);
+		changeSignIn(true);
 	};
 
 	const onSuccessfulLogout = () => {
