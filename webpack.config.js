@@ -12,10 +12,7 @@ module.exports = {
 		filename: "bundle.js"
 	},
 	resolve: {
-		extensions: [".ts", ".tsx", ".js"],
-		alias: {
-			components: path.resolve(__dirname, "src/components/")
-		}
+		extensions: [".js"]
 	},
 	devServer: {
 		contentBase: path.resolve(__dirname, "build"),
@@ -30,6 +27,14 @@ module.exports = {
 				use: [
 					{
 						loader: "babel-loader"
+					}
+				]
+			},
+			{
+				test: /\.svg$/,
+				use: [
+					{
+						loader: "react-svg-loader"
 					}
 				]
 			},

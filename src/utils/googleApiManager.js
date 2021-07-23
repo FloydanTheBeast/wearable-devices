@@ -41,7 +41,7 @@ export const getUserDevices = (accessToken) => {
 				device && devices.add(`${device.manufacturer} ${device.model}`);
 			});
 
-			return devices;
+			return Array.from(devices);
 		})
 		.catch((err) => {
 			console.log(err);
@@ -54,6 +54,7 @@ export const aggregateData = (accessToken, dataType, weekOffset) => {
 		endOfWeek(new Date(), { weekStartsOn: 1 }),
 		weekOffset
 	);
+	const startTime = subDays(endTime, 7);
 
 	return axios
 		.post(
@@ -68,7 +69,7 @@ export const aggregateData = (accessToken, dataType, weekOffset) => {
 					durationMillis: millisInDay
 				},
 				endTimeMillis: endTime.getTime(),
-				startTimeMillis: subDays(endTime, 7).getTime()
+				startTimeMillis: startTime.getTime()
 			},
 			{
 				headers: {
@@ -77,11 +78,15 @@ export const aggregateData = (accessToken, dataType, weekOffset) => {
 			}
 		)
 		.then((response) => {
-			return response.data.bucket.map(
-				(bucket) =>
-					bucket.dataset[0]?.point[0]?.value[0]?.intVal ||
-					bucket.dataset[0]?.point[0]?.value[0]?.fpVal ||
-					null
-			);
+			return {
+				endTime,
+				startTime,
+				data: response.data.bucket.map(
+					(bucket) =>
+						bucket.dataset[0]?.point[0]?.value[0]?.intVal ||
+						bucket.dataset[0]?.point[0]?.value[0]?.fpVal ||
+						null
+				)
+			};
 		});
 };
